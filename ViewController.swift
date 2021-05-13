@@ -1,123 +1,112 @@
 //
 //  ViewController.swift
-//  gamesDeChoudens
+//  assignmentNotebookDeChoudens
 //
 //  Created by period4 on 4/5/21.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+
+
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        
+
+        return self.subjects.count    }
+
     
-    @IBOutlet var labelOne: UILabel!
-    @IBOutlet var labelTwo: UILabel!
-    @IBOutlet var labelThree: UILabel!
-    @IBOutlet var labelFour: UILabel!
-    @IBOutlet var labelFive: UILabel!
-    @IBOutlet var labelSix: UILabel!
-    @IBOutlet var labelSeven: UILabel!
-    @IBOutlet var labelEight: UILabel!
-    @IBOutlet var labelNine: UILabel!
-    @IBOutlet var myView: UIView!
-    @IBOutlet var TurnLabel: UILabel!
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubjectsCell")
+
+        cell?.textLabel?.text = self.subjects[indexPath.row]
+
+        cell?.backgroundColor = .lightGray
+
+        cell?.textLabel?.textColor = .blue
+
+        cell?.detailTextLabel?.text = self.assignments[indexPath.row]
+
+        return cell!
+
+    }
+
     
-    var allLabels : [UILabel] = []
-    
+
+    var subjects = ["College Comp.", "AP Bio", "AB Calc", "AP Econ", "App Development"]
+
+    var assignments = [""]
+
+    @IBOutlet weak var anTableView: UITableViewCell!
+
     override func viewDidLoad() {
+
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
-    
-    allLabels = [labelOne, labelTwo, labelThree, labelFour, labelFive, labelSix, labelSeven, labelEight, labelNine]
-    }
-    func checkForWinner() {
 
-        if labelOne.text == labelTwo.text && labelTwo.text == labelThree.text  && labelOne.text != ""
-            {
-            alert()
-            }
-        if labelOne.text == labelFour.text && labelFour.text == labelSeven.text && labelOne.text != ""
-            {
-            alert()
-            }
-        if labelOne.text == labelFive.text && labelFive.text == labelNine.text && labelOne.text != ""
-            {
-            alert()
-            }
-        if labelTwo.text == labelFive.text && labelFive.text == labelSeven.text && labelTwo.text != ""
-            {
-            alert()
-            }
-        if labelThree.text == labelSix.text && labelSix.text == labelNine.text && labelThree.text != ""
-            {
-            alert()
-            }
-                              
-        if labelThree.text == labelFive.text && labelFive.text == labelSeven.text && labelThree.text != ""
-            {
-            alert()
-            }
-                                
-        if labelFour.text == labelFive.text && labelFive.text == labelSix.text && labelFour.text != ""
-            {
-            alert()
-            }
-        if labelSeven.text == labelEight.text && labelEight.text == labelNine.text && labelSeven.text != ""
-            {
-            alert()
-            }
-    
     }
+
+    
+
+    func alert() {
+
+        let alertController = UIAlertController(title: "Pick Your Subject", message: "What's due?", preferredStyle: .alert)
+
+        
+
+        let addAssignmentButton = UIAlertAction(title: "Done", style: .default) { (action) in
+
+            alertController.addTextField{ (subject) in
+
+            subject.placeholder = "enter Subject"
+
+            alertController.addTextField { (Assignment) in
+
             
-    @IBAction func resetButton(_ sender: Any) {
-    
-        reset()
-    }
-            //Use the parameter in conditional
 
-        func placeInToLabel(myLabel: UILabel) {
+            Assignment.text = "enter assignment"
 
-            if myLabel.text == ""
-            
-            {
-                if TurnLabel.text == "X" {
-                myLabel.text = TurnLabel.text
-                TurnLabel.text = "O"
-                }
-            else {
-                
-                myLabel.text = TurnLabel.text
-                TurnLabel.text = "X"
-            }
-            }
-        }
+            self.assignments.append(Assignment.text!)
 
-                func reset() {
-                        
-                    for label in allLabels {
-                        label.text = ""
-                        print(label)
+            self.subjects.append(subject.text!)
+
+            self.anTableView.reloadData()
+
                     }
-                }
-    @IBAction func tapGesture(sender: UITapGestureRecognizer) {
-   
-        let selectedPoint = sender.location(in: myView)
-        for label in allLabels {
-            if label.frame.contains(selectedPoint) {
-            
-                placeInToLabel(myLabel: label)
+
             }
-        }
-    checkForWinner()
-    }
-        func alert() {
-            
-            let winningAlert = UIAlertController(title: "You won", message: "way to go", preferredStyle: .alert)
-            
-            present(winningAlert, animated: true, completion: nil)
-            let newGameButton = UIAlertAction(title: "New Game?", style: .default) {
-                (action) in self.reset()
+
+                
+
             }
-            winningAlert.addAction(newGameButton)
-            present(winningAlert, animated: true, completion: nil)
+
+        alertController.addAction(addAssignmentButton)
+
+        present(alertController, animated: true, completion: nil)
+
+        
+
         }
+
+
+
+    
+    @IBAction func addAssignment(_ sender: Any) {
+
+        alert()
+
+    
+
     }
+
+    
+
+}
+
+
+

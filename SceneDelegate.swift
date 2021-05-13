@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  gamesDeChoudens
+//  assignmentNotebookDeChoudens
 //
 //  Created by period4 on 4/5/21.
 //
